@@ -1,3 +1,5 @@
+import time
+
 Agent_loc=[]
 Agent_view=[['0']*4 for _ in range(4)]
 Environement=[]
@@ -586,10 +588,11 @@ class Agent():
             return [row,col]
 
     def agentStart(self):
-        counter=0
-        temp_row=4
-        temp_col=4
-        crash_cou=0
+        start_time = time.time()
+        counter = 0
+        temp_row = 4
+        temp_col = 4
+        crash_cou = 0
         global possible_pit
         global safe_loc
         global pervious_dir
@@ -599,357 +602,376 @@ class Agent():
         global mov_check
         global shoot
         global shoot_cod
-        global up_percive,down_percive,left_percive,right_percive
-        row=Agent_loc[0]
-        col=Agent_loc[1]
-        percived.append([row,col])
-        Agent.getpercive(row,col)
-        if(current_percive=='A'):
-            Agent.safe(row,col)
-        elif(current_percive=='AB'):
-            Agent.OnlyBreezeMarkPit(row,col)
-        elif(current_percive=='AS') and wumpus_loc==False:
-            Agent.OnlyStinkMarkWumpus(row,col)
-        elif(current_percive=='ASB'):
-            Agent.BreezeStink(row,col)
-        while(current_percive!='G' and current_percive!='GB' and current_percive!='GS' and current_percive!='PG' and current_percive!='GSB'
-        and current_percive!='PGB' and current_percive!='GPS' and current_percive!='GPSB' and counter!=30):#if glod is found exit loop
-            counter+=1
-            Agent_view[row][col]='A'
-            if(Environement[row][col]=='P' or Environement[row][col]=='PS' or Environement[row][col]=='PB' or Environement[row][col]=='PSB'):
+        global up_percive, down_percive, left_percive, right_percive
+        row = Agent_loc[0]
+        col = Agent_loc[1]
+        percived.append([row, col])
+        Agent.getpercive(row, col)
+        if (current_percive == 'A'):
+            Agent.safe(row, col)
+        elif (current_percive == 'AB'):
+            Agent.OnlyBreezeMarkPit(row, col)
+        elif (current_percive == 'AS') and wumpus_loc == False:
+            Agent.OnlyStinkMarkWumpus(row, col)
+        elif (current_percive == 'ASB'):
+            Agent.BreezeStink(row, col)
+        while (current_percive != 'G' and current_percive != 'GB' and current_percive != 'GS' and current_percive != 'PG' and current_percive != 'GSB'
+               and current_percive != 'PGB' and current_percive != 'GPS' and current_percive != 'GPSB' and counter != 30):  # if glod is found exit loop
+            counter += 1
+            Agent_view[row][col] = 'A'
+            if (Environement[row][col] == 'P' or Environement[row][col] == 'PS' or Environement[row][col] == 'PB' or Environement[row][col] == 'PSB'):
                 print("FELL IN TO A PIT ! GAME OVER")
                 moves.append("game_over_pit")
                 break
-            if(Environement[row][col]=='W' and shoot==False):
+            if (Environement[row][col] == 'W' and shoot == False):
                 print("ATTACKED BY WUMPUS ! GAME OVER")
                 moves.append("game_over_wumpus")
                 break
-            elif Environement[row][col]=='W' and [row,col] not in shoot_cod:
+            elif Environement[row][col] == 'W' and [row, col] not in shoot_cod:
                 print("ATTACKED BY WUMPUS ! GAME OVER")
                 moves.append("game_over_wumpus")
                 break
-            if(up_percive!=1):
-                if(up_percive=='B' or up_percive=='PB' or up_percive=='WB' or up_percive=='GB'):
-                    Agent.OnlyBreezeMarkPit(row-1,col)
-                elif(up_percive=='S' or up_percive=='PS' or up_percive=='GS') and wumpus_loc==False:
-                    Agent.OnlyStinkMarkWumpus(row-1,col)
-                elif(up_percive=='SB' or up_percive=='PSB' or up_percive=='GSB'):
-                    Agent.BreezeStink(row-1,col)
+            if (up_percive != 1):
+                if (up_percive == 'B' or up_percive == 'PB' or up_percive == 'WB' or up_percive == 'GB'):
+                    Agent.OnlyBreezeMarkPit(row-1, col)
+                elif (up_percive == 'S' or up_percive == 'PS' or up_percive == 'GS') and wumpus_loc == False:
+                    Agent.OnlyStinkMarkWumpus(row-1, col)
+                elif (up_percive == 'SB' or up_percive == 'PSB' or up_percive == 'GSB'):
+                    Agent.BreezeStink(row-1, col)
                 else:
-                    Agent.safe(row-1,col)
-            if(down_percive!=1):
-                if(down_percive=='B' or down_percive=='PB' or down_percive=='WB' or down_percive=='GB'):
-                    Agent.OnlyBreezeMarkPit(row+1,col)
-                elif(down_percive=='S' or down_percive=='PS' or down_percive=='GS') and wumpus_loc==False:
-                    Agent.OnlyStinkMarkWumpus(row+1,col)
-                elif(down_percive=='SB' or down_percive=='PSB' or down_percive=='GSB'):
-                    Agent.BreezeStink(row+1,col)
+                    Agent.safe(row-1, col)
+            if (down_percive != 1):
+                if (down_percive == 'B' or down_percive == 'PB' or down_percive == 'WB' or down_percive == 'GB'):
+                    Agent.OnlyBreezeMarkPit(row+1, col)
+                elif (down_percive == 'S' or down_percive == 'PS' or down_percive == 'GS') and wumpus_loc == False:
+                    Agent.OnlyStinkMarkWumpus(row+1, col)
+                elif (down_percive == 'SB' or down_percive == 'PSB' or down_percive == 'GSB'):
+                    Agent.BreezeStink(row+1, col)
                 else:
-                    Agent.safe(row+1,col)
-            if(left_percive!=1):
-                if(left_percive=='B' or left_percive=='PB' or left_percive=='WB' or left_percive=='GB'):
-                    Agent.OnlyBreezeMarkPit(row,col-1)
-                elif(left_percive=='S' or left_percive=='PS' or left_percive=='GS') and wumpus_loc==False:
-                    Agent.OnlyStinkMarkWumpus(row,col-1)
-                elif(left_percive=='SB' or left_percive=='PSB' or left_percive=='GSB'):
-                    Agent.BreezeStink(row,col-1)
+                    Agent.safe(row+1, col)
+            if (left_percive != 1):
+                if (left_percive == 'B' or left_percive == 'PB' or left_percive == 'WB' or left_percive == 'GB'):
+                    Agent.OnlyBreezeMarkPit(row, col-1)
+                elif (left_percive == 'S' or left_percive == 'PS' or left_percive == 'GS') and wumpus_loc == False:
+                    Agent.OnlyStinkMarkWumpus(row, col-1)
+                elif (left_percive == 'SB' or left_percive == 'PSB' or left_percive == 'GSB'):
+                    Agent.BreezeStink(row, col-1)
                 else:
-                    Agent.safe(row,col-1)
-            if(right_percive!=1):
-                if(right_percive=='B' or right_percive=='PB' or right_percive=='WB' or right_percive=='GB'):
-                    Agent.OnlyBreezeMarkPit(row,col+1)
-                elif(right_percive=='S' or right_percive=='PS' or right_percive=='GS') and wumpus_loc==False:
-                    Agent.OnlyStinkMarkWumpus(row,col+1)
-                elif(right_percive=='SB' or right_percive=='PSB' or right_percive=='GSB'):
-                    Agent.BreezeStink(row,col+1)
+                    Agent.safe(row, col-1)
+            if (right_percive != 1):
+                if (right_percive == 'B' or right_percive == 'PB' or right_percive == 'WB' or right_percive == 'GB'):
+                    Agent.OnlyBreezeMarkPit(row, col+1)
+                elif (right_percive == 'S' or right_percive == 'PS' or right_percive == 'GS') and wumpus_loc == False:
+                    Agent.OnlyStinkMarkWumpus(row, col+1)
+                elif (right_percive == 'SB' or right_percive == 'PSB' or right_percive == 'GSB'):
+                    Agent.BreezeStink(row, col+1)
                 else:
-                    Agent.safe(row,col+1)
-            
+                    Agent.safe(row, col+1)
 
-            if(wumpus_loc):
+            if (wumpus_loc):
                 for i in range(4):
                     for j in range(4):
-                        if Agent_view[i][j]=='PW':
-                            Agent_view[i][j]='SF'
-                            safe_loc.append([i,j])
-                        elif Agent_view[i][j]=='PPW':
-                            Agent_view[i][j]='PP'
-                            possible_pit.append([i,j])
+                        if Agent_view[i][j] == 'PW':
+                            Agent_view[i][j] = 'SF'
+                            safe_loc.append([i, j])
+                        elif Agent_view[i][j] == 'PPW':
+                            Agent_view[i][j] = 'PP'
+                            possible_pit.append([i, j])
             else:
-                wump_count=0
+                wump_count = 0
                 for i in range(4):
                     for j in range(4):
-                        if Agent_view[i][j]=='PW' or Agent_view[i][j]=='PPW':
-                            wump_count+=1
-                if(wump_count==1):
+                        if Agent_view[i][j] == 'PW' or Agent_view[i][j] == 'PPW':
+                            wump_count += 1
+                if (wump_count == 1):
                     for i in range(4):
                         for j in range(4):
-                            if Agent_view[i][j]=='PW' or Agent_view[i][j]=='PPW':
-                                Agent_view[i][j]='W'
-                                wumpus_loc=True
-                                Wumpus.append([i,j])
+                            if Agent_view[i][j] == 'PW' or Agent_view[i][j] == 'PPW':
+                                Agent_view[i][j] = 'W'
+                                wumpus_loc = True
+                                Wumpus.append([i, j])
 
+            if (row-1 >= 0 and Agent_view[row-1][col] == 'W' and shoot == False):
+                shoot = True
+                shoot_cod.append([row-1, col])
+                print("SHOOT THE WUMPUS IN ", (row-1, col), " CELL")
+                Agent_view[row-1][col] = 'SF'
 
-            if(row-1>=0 and Agent_view[row-1][col]=='W' and shoot==False):
-                shoot=True
-                shoot_cod.append([row-1,col])
-                print("SHOOT THE WUMPUS IN ",(row-1,col)," CELL")
-                Agent_view[row-1][col]='SF'
-                
                 moves.append("shoot_up")
-                safe_loc.append([row-1,col])
-            elif(col+1<4 and Agent_view[row][col+1]=='W' and shoot==False):
-                shoot=True
-                shoot_cod.append([row,col+1])
-                print("SHOOT THE WUMPUS IN ",(row,col+1)," CELL")
-                Agent_view[row][col+1]='SF'
-                
+                safe_loc.append([row-1, col])
+            elif (col+1 < 4 and Agent_view[row][col+1] == 'W' and shoot == False):
+                shoot = True
+                shoot_cod.append([row, col+1])
+                print("SHOOT THE WUMPUS IN ", (row, col+1), " CELL")
+                Agent_view[row][col+1] = 'SF'
+
                 moves.append("shoot_right")
-                safe_loc.append([row,col+1])
-            elif(row+1<4 and Agent_view[row+1][col]=='W' and shoot==False):
-                shoot=True
-                shoot_cod.append([row+1,col])
-                print("SHOOT THE WUMPUS IN ",(row+1,col)," CELL")
-                Agent_view[row+1][col]='SF'
-                
+                safe_loc.append([row, col+1])
+            elif (row+1 < 4 and Agent_view[row+1][col] == 'W' and shoot == False):
+                shoot = True
+                shoot_cod.append([row+1, col])
+                print("SHOOT THE WUMPUS IN ", (row+1, col), " CELL")
+                Agent_view[row+1][col] = 'SF'
+
                 moves.append("shoot_down")
-                safe_loc.append([row+1,col])
-            elif(col-1>=0 and Agent_view[row][col-1]=='W'):
-                shoot=True
-                shoot_cod.append([row,col-1])
-                print("SHOOT THE WUMPUS IN ",(row,col-1)," CELL")
-                Agent_view[row][col-1]='SF'
-                
+                safe_loc.append([row+1, col])
+            elif (col-1 >= 0 and Agent_view[row][col-1] == 'W'):
+                shoot = True
+                shoot_cod.append([row, col-1])
+                print("SHOOT THE WUMPUS IN ", (row, col-1), " CELL")
+                Agent_view[row][col-1] = 'SF'
+
                 moves.append("shoot_left")
-                safe_loc.append([row,col-1])
-            Agent_view[row][col]='V'
-            if(row-1>=0 and Agent_view[row-1][col]=='SF'):
-                row=row-1
-                col=col
-                print(row,col)
-                if(pervious_dir=='up'):
+                safe_loc.append([row, col-1])
+            Agent_view[row][col] = 'V'
+            if (row-1 >= 0 and Agent_view[row-1][col] == 'SF'):
+                row = row-1
+                col = col
+                print(row, col)
+                if (pervious_dir == 'up'):
                     print("Move - forward")
-                elif(pervious_dir=='left'):
+                elif (pervious_dir == 'left'):
                     print("Turn Right and Move Forward")
-                elif(pervious_dir=='right'):
+                elif (pervious_dir == 'right'):
                     print("Turn Left and Move Forward")
                 else:
                     print("Turn Right twice and Move Forward")
                 moves.append('move_up')
-                pervious_dir='up'
-                mov_check=True
-                safe_loc.remove([row,col])
-            elif(col+1<4 and Agent_view[row][col+1]=='SF'):
-                col=col+1
-                row=row
-                print(row,col)
-                if(pervious_dir=='right'):
+                pervious_dir = 'up'
+                mov_check = True
+                safe_loc.remove([row, col])
+            elif (col+1 < 4 and Agent_view[row][col+1] == 'SF'):
+                col = col+1
+                row = row
+                print(row, col)
+                if (pervious_dir == 'right'):
                     print("Move - forward")
-                elif(pervious_dir=='left'):
+                elif (pervious_dir == 'left'):
                     print("Turn Right twice and Move Forward")
-                elif(pervious_dir=='up'):
+                elif (pervious_dir == 'up'):
                     print("Turn Right and Move Forward")
                 else:
                     print("Turn Left and Move Forward")
                 moves.append('move_right')
-                pervious_dir='right'
-                mov_check=True
-                safe_loc.remove([row,col])
-            elif(row+1<4 and Agent_view[row+1][col]=='SF'):
-                row=row+1
-                col=col
-                print(row,col)
-                if(pervious_dir=='down'):
+                pervious_dir = 'right'
+                mov_check = True
+                safe_loc.remove([row, col])
+            elif (row+1 < 4 and Agent_view[row+1][col] == 'SF'):
+                row = row+1
+                col = col
+                print(row, col)
+                if (pervious_dir == 'down'):
                     print("Move - forward")
-                elif(pervious_dir=='left'):
+                elif (pervious_dir == 'left'):
                     print("Turn Left and Move Forward")
-                elif(pervious_dir=='right'):
+                elif (pervious_dir == 'right'):
                     print("Turn Right and Move Forward")
                 else:
                     print("Turn Right twice and Move Forward")
                 moves.append('move_down')
-                pervious_dir='down'
-                mov_check=True
-                safe_loc.remove([row,col])
-            elif(col-1>=0 and Agent_view[row][col-1]=='SF'):
-                row=row
-                col=col-1
-                print(row,col)
-                if(pervious_dir=='left'):
+                pervious_dir = 'down'
+                mov_check = True
+                safe_loc.remove([row, col])
+            elif (col-1 >= 0 and Agent_view[row][col-1] == 'SF'):
+                row = row
+                col = col-1
+                print(row, col)
+                if (pervious_dir == 'left'):
                     print("Move - forward")
-                elif(pervious_dir=='right'):
+                elif (pervious_dir == 'right'):
                     print("Turn Right twice and Move Forward")
-                elif(pervious_dir=='up'):
+                elif (pervious_dir == 'up'):
                     print("Turn Left and Move Forward")
                 else:
                     print("Turn Right and Move Forward")
                 moves.append('move_left')
-                pervious_dir='left'
-                safe_loc.remove([row,col])
-                mov_check=True
-            elif len(safe_loc)!=0:
-                i=0
-                while i<len(safe_loc):
-                    temp_row=safe_loc[i][0]
-                    temp_col=safe_loc[i][1]
-                    clearpath=Agent.checkpath(row,col,temp_row, temp_col)
-                    if(clearpath):
-                        Agent.travel_to_safe(row,col,temp_row,temp_col)
-                        row=temp_row
-                        col=temp_col
-                        safe_loc.remove([row,col])
-                        mov_check=True
+                pervious_dir = 'left'
+                safe_loc.remove([row, col])
+                mov_check = True
+            elif len(safe_loc) != 0:
+                i = 0
+                while i < len(safe_loc):
+                    temp_row = safe_loc[i][0]
+                    temp_col = safe_loc[i][1]
+                    clearpath = Agent.checkpath(row, col, temp_row, temp_col)
+                    if (clearpath):
+                        Agent.travel_to_safe(row, col, temp_row, temp_col)
+                        row = temp_row
+                        col = temp_col
+                        safe_loc.remove([row, col])
+                        mov_check = True
                         break
-                    elif i==len(safe_loc)-1:
-                        j=0
-                        while j<len(safe_loc):
-                            temp_row=safe_loc[j][0]
-                            temp_col=safe_loc[j][1]
-                            clearpath1=Agent.colcheckpath(row,col,temp_row,temp_col)
-                            if(clearpath1):
-                                Agent.travel_to_safe_col(row,col,temp_row,temp_col)
-                                row=temp_row
-                                col=temp_col
-                                safe_loc.remove([row,col])
-                                mov_check=True
+                    elif i == len(safe_loc)-1:
+                        j = 0
+                        while j < len(safe_loc):
+                            temp_row = safe_loc[j][0]
+                            temp_col = safe_loc[j][1]
+                            clearpath1 = Agent.colcheckpath(
+                                row, col, temp_row, temp_col)
+                            if (clearpath1):
+                                Agent.travel_to_safe_col(
+                                    row, col, temp_row, temp_col)
+                                row = temp_row
+                                col = temp_col
+                                safe_loc.remove([row, col])
+                                mov_check = True
                                 break
-                            elif j==len(safe_loc)-1:
+                            elif j == len(safe_loc)-1:
                                 break
                             else:
-                                temp_col=4
-                                temp_row=4
-                                j+=1
+                                temp_col = 4
+                                temp_row = 4
+                                j += 1
                         break
                     else:
-                        temp_col=4
-                        temp_row=4
-                        i+=1
-            if (mov_check==False and len(possible_pit)!=0):
-                new_loc=Agent.unsafe(row,col)
+                        temp_col = 4
+                        temp_row = 4
+                        i += 1
+            if (mov_check == False and len(possible_pit) != 0):
+                new_loc = Agent.unsafe(row, col)
                 if new_loc:
-                    row=new_loc[0]
-                    col=new_loc[1]
+                    row = new_loc[0]
+                    col = new_loc[1]
                 else:
-                    k=0
-                    while k<len(possible_pit):
-                        temp_row=possible_pit[k][0]
-                        temp_col=possible_pit[k][1]
-                        clearpath=Agent.colcheckpath(row,col,temp_row,temp_col)
-                        if(clearpath):
-                            Agent.travel_to_safe(row,col,temp_row,temp_col)
-                            row=temp_row
-                            col=temp_col
-                            print("here row bn",temp_row,temp_col)
-                            possible_pit.remove([row,col])
+                    k = 0
+                    while k < len(possible_pit):
+                        temp_row = possible_pit[k][0]
+                        temp_col = possible_pit[k][1]
+                        clearpath = Agent.colcheckpath(
+                            row, col, temp_row, temp_col)
+                        if (clearpath):
+                            Agent.travel_to_safe(row, col, temp_row, temp_col)
+                            row = temp_row
+                            col = temp_col
+                            print("here row bn", temp_row, temp_col)
+                            possible_pit.remove([row, col])
                             break
-                        elif k==len(possible_pit)-1:
-                            h=0
-                            while h<len(possible_pit):
-                                temp_row=possible_pit[h][0]
-                                temp_col=possible_pit[h][1]
-                                clearpath1=Agent.colcheckpath(row,col,temp_row,temp_col)
-                                if(clearpath1):#similar
-                                    Agent.travel_to_safe_col(row,col,temp_row,temp_col)
-                                    row=temp_row
-                                    col=temp_col
-                                    print("here col bn",temp_row,temp_col)
-                                    possible_pit.remove([row,col])
+                        elif k == len(possible_pit)-1:
+                            h = 0
+                            while h < len(possible_pit):
+                                temp_row = possible_pit[h][0]
+                                temp_col = possible_pit[h][1]
+                                clearpath1 = Agent.colcheckpath(
+                                    row, col, temp_row, temp_col)
+                                if (clearpath1):  # similar
+                                    Agent.travel_to_safe_col(
+                                        row, col, temp_row, temp_col)
+                                    row = temp_row
+                                    col = temp_col
+                                    print("here col bn", temp_row, temp_col)
+                                    possible_pit.remove([row, col])
                                     break
-                                elif h==len(possible_pit)-1:
-                                    if(crash_cou==4):
-                                        print(" Agent unable to locate next move")
+                                elif h == len(possible_pit)-1:
+                                    if (crash_cou == 4):
+                                        print(
+                                            " Agent unable to locate next move")
                                         moves.append("crash")
-                                        counter=30
+                                        counter = 30
                                     else:
-                                        crash_cou+=1
-                                        if(row-1>=0 and Agent_view[row-1][col]=='V'):
-                                            row=row-1
-                                            col=col
-                                            print(row,col)
-                                            if(pervious_dir=='up'):
+                                        crash_cou += 1
+                                        if (row-1 >= 0 and Agent_view[row-1][col] == 'V'):
+                                            row = row-1
+                                            col = col
+                                            print(row, col)
+                                            if (pervious_dir == 'up'):
                                                 print("Move - forward")
-                                            elif(pervious_dir=='left'):
-                                                print("Turn Right and Move Forward")
-                                            elif(pervious_dir=='right'):
-                                                print("Turn Left and Move Forward")
+                                            elif (pervious_dir == 'left'):
+                                                print(
+                                                    "Turn Right and Move Forward")
+                                            elif (pervious_dir == 'right'):
+                                                print(
+                                                    "Turn Left and Move Forward")
                                             else:
-                                                print("Turn Right twice and Move Forward")
+                                                print(
+                                                    "Turn Right twice and Move Forward")
                                             moves.append('move_up')
-                                            pervious_dir='up'
-                                            mov_check=True
-                                        elif(col+1<4 and Agent_view[row][col+1]=='V'):
-                                            col=col+1
-                                            row=row
-                                            print(row,col)
-                                            if(pervious_dir=='right'):
+                                            pervious_dir = 'up'
+                                            mov_check = True
+                                        elif (col+1 < 4 and Agent_view[row][col+1] == 'V'):
+                                            col = col+1
+                                            row = row
+                                            print(row, col)
+                                            if (pervious_dir == 'right'):
                                                 print("Move - forward")
-                                            elif(pervious_dir=='left'):
-                                                print("Turn Right twice and Move Forward")
-                                            elif(pervious_dir=='up'):
-                                                print("Turn Right and Move Forward")
+                                            elif (pervious_dir == 'left'):
+                                                print(
+                                                    "Turn Right twice and Move Forward")
+                                            elif (pervious_dir == 'up'):
+                                                print(
+                                                    "Turn Right and Move Forward")
                                             else:
-                                                print("Turn Left and Move Forward")
+                                                print(
+                                                    "Turn Left and Move Forward")
                                             moves.append('move_right')
-                                            pervious_dir='right'
-                                            mov_check=True
-                                        elif(row+1<4 and Agent_view[row+1][col]=='V'):
-                                            row=row+1
-                                            col=col
-                                            print(row,col)
-                                            if(pervious_dir=='down'):
+                                            pervious_dir = 'right'
+                                            mov_check = True
+                                        elif (row+1 < 4 and Agent_view[row+1][col] == 'V'):
+                                            row = row+1
+                                            col = col
+                                            print(row, col)
+                                            if (pervious_dir == 'down'):
                                                 print("Move - forward")
-                                            elif(pervious_dir=='left'):
-                                                print("Turn Left and Move Forward")
-                                            elif(pervious_dir=='right'):
-                                                print("Turn Right and Move Forward")
+                                            elif (pervious_dir == 'left'):
+                                                print(
+                                                    "Turn Left and Move Forward")
+                                            elif (pervious_dir == 'right'):
+                                                print(
+                                                    "Turn Right and Move Forward")
                                             else:
-                                                print("Turn Right twice and Move Forward")
+                                                print(
+                                                    "Turn Right twice and Move Forward")
                                             moves.append('move_down')
-                                            pervious_dir='down'
-                                            mov_check=True
-                                        elif(col-1>=0 and Agent_view[row][col-1]=='V'):
-                                            row=row
-                                            col=col-1
-                                            print(row,col)
-                                            if(pervious_dir=='left'):
+                                            pervious_dir = 'down'
+                                            mov_check = True
+                                        elif (col-1 >= 0 and Agent_view[row][col-1] == 'V'):
+                                            row = row
+                                            col = col-1
+                                            print(row, col)
+                                            if (pervious_dir == 'left'):
                                                 print("Move - forward")
-                                            elif(pervious_dir=='right'):
-                                                print("Turn Right twice and Move Forward")
-                                            elif(pervious_dir=='up'):
-                                                print("Turn Left and Move Forward")
+                                            elif (pervious_dir == 'right'):
+                                                print(
+                                                    "Turn Right twice and Move Forward")
+                                            elif (pervious_dir == 'up'):
+                                                print(
+                                                    "Turn Left and Move Forward")
                                             else:
-                                                print("Turn Right and Move Forward")
+                                                print(
+                                                    "Turn Right and Move Forward")
                                             moves.append('move_left')
-                                            pervious_dir='left'
-                                            mov_check=True
+                                            pervious_dir = 'left'
+                                            mov_check = True
 
                                     break
                                 else:
-                                    temp_col=4
-                                    temp_row=4
-                                    h+=1
+                                    temp_col = 4
+                                    temp_row = 4
+                                    h += 1
                             break
                         else:
-                            temp_col=4
-                            temp_row=4
-                            k+=1
-            elif mov_check==False:
+                            temp_col = 4
+                            temp_row = 4
+                            k += 1
+            elif mov_check == False:
                 print("Agent unable to locate next move")
                 moves.append("crash")
-                counter=30
+                counter = 30
 
-            mov_check=False
-            up_percive=1
-            down_percive=1
-            right_percive=1
-            left_percive=1
-            Agent.getpercive(row,col)
+            mov_check = False
+            up_percive = 1
+            down_percive = 1
+            right_percive = 1
+            left_percive = 1
+            Agent.getpercive(row, col)
 
-        if(Environement[row][col]=="G" or Environement[row][col]=="GS" or Environement[row][col]=="GB" or Environement[row][col]=="GSB"):
+        if (Environement[row][col] == "G" or Environement[row][col] == "GS" or Environement[row][col] == "GB" or Environement[row][col] == "GSB"):
             print("GOLD FOUND!!! AGENT WINS")
             moves.append("gold")
         else:
             print("AGENT LOSE :-[")
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print("Waktu algoritma berjalan:", execution_time, "detik")
         return moves
 
     def agent_loc(agent_loc,original):
