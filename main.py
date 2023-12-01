@@ -2,6 +2,7 @@ import tkinter as tk
 import random
 import styles as S
 import agent as Ag
+import time
 
 wumpus_cod=[]
 pit=[]
@@ -28,7 +29,6 @@ class WumpusGame(tk.Frame):
         self.pit()
         self.agent_pos()
         self.gold()
-        self.gold()
         global moves
         moves=Ag.Agent.agentStart(self)
         self.master.bind("<space>", self.start)
@@ -36,9 +36,9 @@ class WumpusGame(tk.Frame):
 
     def environment(self):
         self.cells=[]
-        for i in range(5):
+        for i in range(4):
             row=[]
-            for j in range(5):
+            for j in range(4):
                 cell_frame=tk.Frame(
                     self.main_grid,
                     bg="#ffffff",
@@ -62,20 +62,20 @@ class WumpusGame(tk.Frame):
         self.score_label.grid(row=1)
 
     def wumpus(self):
-        self.matrix=[['0']*5 for _ in range(5)]
-        row=random.randint(0,4)
-        col=random.randint(0,4)
+        self.matrix=[['0']*4 for _ in range(4)]
+        row=random.randint(0,3)
+        col=random.randint(0,3)
         #if random position is conners, initialize again
-        while(row==0 and col==0) or (row==4 and col==0) or (row==0 and col==4) or (row==4 and col==4):
-            row=random.randint(0,4)
-            col=random.randint(0,4)
+        while(row==0 and col==0) or (row==3 and col==0) or (row==0 and col==4) or (row==4 and col==4):
+            row=random.randint(0,3)
+            col=random.randint(0,3)
 
         self.matrix[row][col]='W'
         if (row-1>=0):
             self.matrix[row-1][col]='S'
-        if (col+1<5):
+        if (col+1<4):
             self.matrix[row][col+1]='S'
-        if (row+1<5):
+        if (row+1<4):
             self.matrix[row+1][col]='S'
         if (col-1>=0):
             self.matrix[row][col-1]='S'
@@ -87,9 +87,9 @@ class WumpusGame(tk.Frame):
     def pit(self):
         global pit
 
-        while(sum([i.count('P') + i.count('PS') for i in self.matrix])<5):
-            row=random.randint(0,4)
-            col=random.randint(0,4)
+        while(sum([i.count('P') + i.count('PS') for i in self.matrix])<4):
+            row=random.randint(0,3)
+            col=random.randint(0,3)
             if(self.matrix[row][col]!='P') and (self.matrix[row][col]!='W') and (self.matrix[row][col]!='PS'):
                 if(self.matrix[row][col]!='S'):
                     self.matrix[row][col]='P'
@@ -98,7 +98,7 @@ class WumpusGame(tk.Frame):
                     self.matrix[row][col]='PS'
 
                 pit.append([row,col])
-        for i in range(5):
+        for i in range(4):
             row=pit[i][0]
             col=pit[i][1]
             if(row-1>=0):
@@ -129,7 +129,7 @@ class WumpusGame(tk.Frame):
                 else:
                     self.matrix[row-1][col]='B'
 
-            if(row+1<5):
+            if(row+1<4):
                 if(self.matrix[row+1][col]=='W'):
                     self.matrix[row+1][col]='WB'
 
@@ -185,7 +185,7 @@ class WumpusGame(tk.Frame):
                 else:
                     self.matrix[row][col-1]='B'
 
-            if(col+1<5):
+            if(col+1<4):
                 if(self.matrix[row][col+1]=='W'):
                     self.matrix[row][col+1]='WB'
 
@@ -215,11 +215,11 @@ class WumpusGame(tk.Frame):
 
 
     def agent_pos(self):
-        row=random.choice([0,4])
-        col=random.choice([0,4])
+        row=random.choice([0,3])
+        col=random.choice([0,3])
         while(self.matrix[row][col]=='P') or (self.matrix[row][col]=='PS') or (self.matrix[row][col]=='PB') or (self.matrix[row][col]=='PSB'):
-            row=random.choice([0,4])
-            col=random.choice([0,4])
+            row=random.choice([0,3])
+            col=random.choice([0,3])
         global Agent
         global original_agent
         Agent=[row,col]
@@ -237,13 +237,13 @@ class WumpusGame(tk.Frame):
             self.matrix[row][col]='ASB'
 
     def gold(self):
-        row=random.choice([0,4])
-        col=random.choice([0,4])
+        row=random.choice([0,3])
+        col=random.choice([0,3])
         while(self.matrix[row][col]=='W' or self.matrix[row][col]=='WB' or self.matrix[row][col]=='A' or self.matrix[row][col]=='AS'
             or self.matrix[row][col]=='AB' or self.matrix[row][col]=='ASB' or self.matrix[row][col]=='P' or self.matrix[row][col]=='PSB' or
             self.matrix[row][col]=='PS' or self.matrix[row][col]=='PB'):
-            row=random.choice([0,4])
-            col=random.choice([0,4])
+            row=random.choice([0,3])
+            col=random.choice([0,3])
         if(self.matrix[row][col]=='B'):
             self.matrix[row][col]='GB'
 
@@ -263,8 +263,8 @@ class WumpusGame(tk.Frame):
         self.updateGui()
 
     def updateGui(self):
-        for i in range(5):
-            for j in range(5):
+        for i in range(4):
+            for j in range(4):
                 cell_value=self.matrix[i][j]
                 if cell_value=='0':
                     self.cells[i][j]["frame"].configure(bg="#FFFFFF")

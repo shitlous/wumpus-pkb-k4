@@ -1,5 +1,5 @@
 Agent_loc=[]
-Agent_view=[['0']*5 for _ in range(5)]
+Agent_view=[['0']*4 for _ in range(4)]
 Environement=[]
 percived=[]
 mov_check=False
@@ -20,7 +20,7 @@ current_percive=1
 
 class Agent():
     def __init__(self):
-        self.matrix=[['0']*5 for _ in range(5)]
+        self.matrix=[['0']*4 for _ in range(4)]
 
     def getpercive(row,col):
         global up_percive
@@ -35,13 +35,13 @@ class Agent():
         if row-1>=0 and [row-1,col] not in percived:
             up_percive=Environement[row-1][col]
             percived.append([row-1,col])
-        if row+1<5 and [row+1,col] not in percived:
+        if row+1<4 and [row+1,col] not in percived:
             down_percive=Environement[row+1][col]
             percived.append([row+1,col])
         if col-1>=0 and [row,col-1] not in percived:
             left_percive=Environement[row][col-1]
             percived.append([row,col-1])
-        if col+1<5 and [row,col+1] not in percived:
+        if col+1<4 and [row,col+1] not in percived:
             right_percive=Environement[row][col+1]
             percived.append([row,col+1])
             
@@ -53,7 +53,7 @@ class Agent():
                 possible_pit.remove([row-1,col])
             Agent_view[row-1][col]='SF'
             safe_loc.append([row-1,col])
-        if row+1<5 and Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row-1][col]!='W' and [row+1,col] not in safe_loc:
+        if row+1<4 and Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row-1][col]!='W' and [row+1,col] not in safe_loc:
             if Agent_view[row+1][col]=='PP':
                 possible_pit.remove([row+1,col])
             Agent_view[row+1][col]='SF'
@@ -63,7 +63,7 @@ class Agent():
                 possible_pit.remove([row,col-1])
             Agent_view[row][col-1]='SF'
             safe_loc.append([row,col-1])
-        if col+1<5 and Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row-1][col]!='W' and [row,col+1] not in safe_loc:
+        if col+1<4 and Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row-1][col]!='W' and [row,col+1] not in safe_loc:
             if Agent_view[row][col+1]=='PP':
                 possible_pit.remove([row,col+1])
             Agent_view[row][col+1]='SF'
@@ -80,7 +80,7 @@ class Agent():
             else:
                 Agent_view[row-1][col]='PP'
                 possible_pit.append([row-1,col])
-        if row+1<5 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF'):
+        if row+1<4 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF'):
             if Agent_view[row+1][col]=='PP' or Agent_view[row+1][col]=='P' or Agent_view[row+1][col]=='PPW':
                 if Agent_view[row+1][col]=='PP':
                     possible_pit.remove([row+1,col])
@@ -96,7 +96,7 @@ class Agent():
             else:
                 Agent_view[row][col-1]='PP'
                 possible_pit.append([row,col-1])
-        if col+1<5 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF'):
+        if col+1<4 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF'):
             if Agent_view[row][col+1]=='PP' or Agent_view[row][col+1]=='P' or Agent_view[row][col+1]=='PPW':
                 if Agent_view[row][col+1]=='PP':
                     possible_pit.remove([row,col+1])
@@ -118,7 +118,7 @@ class Agent():
                     if Agent_view[row-1][col]=='PP':
                         possible_pit.remove([row-1,col])
                     Agent_view[row-1][col]='PW'
-            if row+1<5 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF') and wumpus_loc==False:
+            if row+1<4 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF') and wumpus_loc==False:
                 if Agent_view[row+1][col]=='PW' or Agent_view[row+1][col]=='W' or Agent_view[row+1][col]=='PPW':
                     Agent_view[row+1][col]='W'
                     Wumpus.append([row+1,col])
@@ -136,7 +136,7 @@ class Agent():
                     if Agent_view[row][col-1]=='PP':
                         possible_pit.remove([row,col-1])
                     Agent_view[row][col-1]='PW'
-            if col+1<5 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF') and wumpus_loc==False:
+            if col+1<4 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF') and wumpus_loc==False:
                 if Agent_view[row][col+1]=='PW' or Agent_view[row][col+1]=='W' or Agent_view[row][col+1]=='PPW':
                     Agent_view[row][col+1]='W'
                     Wumpus.append([row,col+1])
@@ -150,7 +150,7 @@ class Agent():
                 if Agent_view[row-1][col]=='PP':
                     possible_pit.remove([row-1,col])
                 Agent_view[row-1][col]='SF'
-            if row+1<5 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF' and Agent_view[row+1][col]!='W'):
+            if row+1<4 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF' and Agent_view[row+1][col]!='W'):
                 if Agent_view[row+1][col]=='PP':
                     possible_pit.remove([row+1,col])
                 Agent_view[row+1][col]='SF'
@@ -158,7 +158,7 @@ class Agent():
                 if Agent_view[row][col-1]=='PP':
                     possible_pit.remove([row,col-1])
                 Agent_view[row][col-1]='SF'
-            if col+1<5 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF' and Agent_view[row][col+1]!='W'):
+            if col+1<4 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF' and Agent_view[row][col+1]!='W'):
                 if Agent_view[row][col+1]=='PP':
                     possible_pit.remove([row,col+1])
                 Agent_view[row][col+1]='SF'
@@ -181,7 +181,7 @@ class Agent():
             elif Agent_view[row-1][col]!='W':
                 Agent_view[row-1][col]='PP'
                 possible_pit.append([row-1,col])
-        if row+1<5 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF'):
+        if row+1<4 and (Agent_view[row+1][col]!='V' and Agent_view[row+1][col]!='A' and Agent_view[row+1][col]!='SF'):
             if Agent_view[row+1][col]=='PP' or Agent_view[row+1][col]=='P':
                 if Agent_view[row+1][col]=='PP':
                     possible_pit.remove([row+1,col])
@@ -209,7 +209,7 @@ class Agent():
             elif Agent_view[row][col-1]!='W':
                 Agent_view[row][col-1]='PP'
                 possible_pit.append([row,col-1])
-        if col+1<5 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF'):
+        if col+1<4 and (Agent_view[row][col+1]!='V' and Agent_view[row][col+1]!='A' and Agent_view[row][col+1]!='SF'):
             if Agent_view[row][col+1]=='PP' or Agent_view[row][col+1]=='P':
                 if Agent_view[row][col+1]=='PP':
                     possible_pit.remove([row,col+1])
@@ -533,7 +533,7 @@ class Agent():
             if Agent_view[row][col]=='PP':
                 possible_pit.remove([row,col])
             return [row,col]
-        elif col+1<5 and (Agent_view[row][col+1]=='PP' or Agent_view[row][col+1]=='PW'):
+        elif col+1<4 and (Agent_view[row][col+1]=='PP' or Agent_view[row][col+1]=='PW'):
             col=col+1
             row=row
             print(row,col)
@@ -550,7 +550,7 @@ class Agent():
             if Agent_view[row][col]=='PP':
                 possible_pit.remove([row,col])
             return [row,col]
-        elif row+1<5 and (Agent_view[row+1][col]=='PP' or Agent_view[row+1][col]=='PW'):
+        elif row+1<4 and (Agent_view[row+1][col]=='PP' or Agent_view[row+1][col]=='PW'):
             row=row+1
             col=col
             print(row,col)
@@ -587,8 +587,8 @@ class Agent():
 
     def agentStart(self):
         counter=0
-        temp_row=5
-        temp_col=5
+        temp_row=4
+        temp_col=4
         crash_cou=0
         global possible_pit
         global safe_loc
@@ -667,8 +667,8 @@ class Agent():
             
 
             if(wumpus_loc):
-                for i in range(5):
-                    for j in range(5):
+                for i in range(4):
+                    for j in range(4):
                         if Agent_view[i][j]=='PW':
                             Agent_view[i][j]='SF'
                             safe_loc.append([i,j])
@@ -677,13 +677,13 @@ class Agent():
                             possible_pit.append([i,j])
             else:
                 wump_count=0
-                for i in range(5):
-                    for j in range(5):
+                for i in range(4):
+                    for j in range(4):
                         if Agent_view[i][j]=='PW' or Agent_view[i][j]=='PPW':
                             wump_count+=1
                 if(wump_count==1):
-                    for i in range(5):
-                        for j in range(5):
+                    for i in range(4):
+                        for j in range(4):
                             if Agent_view[i][j]=='PW' or Agent_view[i][j]=='PPW':
                                 Agent_view[i][j]='W'
                                 wumpus_loc=True
@@ -698,7 +698,7 @@ class Agent():
                 
                 moves.append("shoot_up")
                 safe_loc.append([row-1,col])
-            elif(col+1<5 and Agent_view[row][col+1]=='W' and shoot==False):
+            elif(col+1<4 and Agent_view[row][col+1]=='W' and shoot==False):
                 shoot=True
                 shoot_cod.append([row,col+1])
                 print("SHOOT THE WUMPUS IN ",(row,col+1)," CELL")
@@ -706,7 +706,7 @@ class Agent():
                 
                 moves.append("shoot_right")
                 safe_loc.append([row,col+1])
-            elif(row+1<5 and Agent_view[row+1][col]=='W' and shoot==False):
+            elif(row+1<4 and Agent_view[row+1][col]=='W' and shoot==False):
                 shoot=True
                 shoot_cod.append([row+1,col])
                 print("SHOOT THE WUMPUS IN ",(row+1,col)," CELL")
@@ -739,7 +739,7 @@ class Agent():
                 pervious_dir='up'
                 mov_check=True
                 safe_loc.remove([row,col])
-            elif(col+1<5 and Agent_view[row][col+1]=='SF'):
+            elif(col+1<4 and Agent_view[row][col+1]=='SF'):
                 col=col+1
                 row=row
                 print(row,col)
@@ -755,7 +755,7 @@ class Agent():
                 pervious_dir='right'
                 mov_check=True
                 safe_loc.remove([row,col])
-            elif(row+1<5 and Agent_view[row+1][col]=='SF'):
+            elif(row+1<4 and Agent_view[row+1][col]=='SF'):
                 row=row+1
                 col=col
                 print(row,col)
@@ -816,13 +816,13 @@ class Agent():
                             elif j==len(safe_loc)-1:
                                 break
                             else:
-                                temp_col=5
-                                temp_row=5
+                                temp_col=4
+                                temp_row=4
                                 j+=1
                         break
                     else:
-                        temp_col=5
-                        temp_row=5
+                        temp_col=4
+                        temp_row=4
                         i+=1
             if (mov_check==False and len(possible_pit)!=0):
                 new_loc=Agent.unsafe(row,col)
@@ -877,7 +877,7 @@ class Agent():
                                             moves.append('move_up')
                                             pervious_dir='up'
                                             mov_check=True
-                                        elif(col+1<5 and Agent_view[row][col+1]=='V'):
+                                        elif(col+1<4 and Agent_view[row][col+1]=='V'):
                                             col=col+1
                                             row=row
                                             print(row,col)
@@ -892,7 +892,7 @@ class Agent():
                                             moves.append('move_right')
                                             pervious_dir='right'
                                             mov_check=True
-                                        elif(row+1<5 and Agent_view[row+1][col]=='V'):
+                                        elif(row+1<4 and Agent_view[row+1][col]=='V'):
                                             row=row+1
                                             col=col
                                             print(row,col)
@@ -925,13 +925,13 @@ class Agent():
 
                                     break
                                 else:
-                                    temp_col=5
-                                    temp_row=5
+                                    temp_col=4
+                                    temp_row=4
                                     h+=1
                             break
                         else:
-                            temp_col=5
-                            temp_row=5
+                            temp_col=4
+                            temp_row=4
                             k+=1
             elif mov_check==False:
                 print("Agent unable to locate next move")
