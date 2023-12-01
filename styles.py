@@ -1,10 +1,3 @@
-'''
------ MINI PROJECT 01-----
-Name : D.L.I.Sathsara
-Index_No: 17/ENG/099
-Course : CO3205 Intelligent Systems
-Submission Date : 13/5/2021
-'''
 TITLE_FONT=("Helvetica",20,"bold")
 DOUBLE_FONT=("Helvetica",15,"bold")
 DOUBLE_FONT1=("Helvetica",12,"bold")
